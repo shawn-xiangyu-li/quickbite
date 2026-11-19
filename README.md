@@ -89,4 +89,10 @@ cd backend
 
 ## Deployment
 
-In production, the frontend is built with `npm run build` and the output is copied into `backend/src/main/resources/public/`, so one Spring Boot service serves both the app and the API. The backend runs as a container image (pushed to AWS ECR and run on AWS App Runner) and connects to PostgreSQL on AWS RDS. Production database settings are passed in as environment variables, never committed to the repo.
+In production, the frontend is built with `npm run build` and the output is copied into `backend/src/main/resources/public/`, so one Spring Boot service serves both the app and the API. The backend is packaged as a container image with Spring Boot's built-in image builder, pushed to AWS ECR, and run on AWS App Runner. It connects to PostgreSQL on AWS RDS. Production database settings are passed in as environment variables, never committed to the repo.
+
+```bash
+cd backend
+./gradlew bootBuildImage --imageName=<aws-account-id>.dkr.ecr.<region>.amazonaws.com/onlineorder
+docker push <aws-account-id>.dkr.ecr.<region>.amazonaws.com/onlineorder
+```
